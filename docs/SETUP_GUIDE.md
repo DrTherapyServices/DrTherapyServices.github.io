@@ -4,6 +4,25 @@ This guide takes you from an empty GitHub account to a live booking website at
 **https://drtherapyservices.github.io** that emails clients and admins and keeps an
 admin-only spreadsheet/CSV of every appointment.
 
+## Status (updated 2026-09-27)
+
+**Live now**
+
+* Website: <https://drtherapyservices.github.io> and <https://drtherapyservices.github.io/book.html> (HTTPS, served by GitHub Pages from `main` / root of `DrTherapyServices/DrTherapyServices.github.io`).
+* The booking page runs in **demo mode** (`API_URL` in `js/config.js` is empty): the whole flow is clickable, but no email, Meet link or sheet row is created.
+* Backup: `digonto10602/DrTherapyServices-backup` (private) is updated two ways: the local `origin` remote pushes to both repos, and the *Mirror to personal backup* GitHub Action copies every push on `main`.
+* End-to-end checks: `python3 tools/e2e_check.py` (local) or `python3 tools/e2e_check.py --base https://drtherapyservices.github.io --prefix live-` (live). Screenshots go to `tools/screenshots/` (not committed).
+
+**Still to do**
+
+1. **Google backend**: Step 7 (Sheet + Apps Script + web app deployment) and Step 8 (paste the web-app URL and `SITE_KEY` into `js/config.js`, push, test a real booking).
+2. **Content personalisation**: make every claim in `index.html` true for the real team (BCBA / licensed-clinician wording, services offered, ages, locations, insurance). See Prompt 2 in `CLAUDE_CODE_PROMPT.md`.
+3. **Privacy page**: add `privacy.html` and link it from both footers before collecting real bookings.
+4. **Custom domain** (optional): Step 11.
+5. **Tighten the mirror token** (recommended): the `BACKUP_TOKEN` secret currently holds the GitHub CLI login token of `digonto10602`, which can reach all of that account's repos. Replace it with a fine-grained token limited to the backup repo (Step 6.1–6.2).
+
+---
+
 Plain-English glossary (terms are defined the first time they appear):
 
 * **Repository (repo)** — a folder of files that GitHub stores and tracks changes to.
@@ -44,7 +63,7 @@ plan for some features. You can switch later; the site copy reads `MEETING_PLATF
 
 ---
 
-## Step 1 — Create the GitHub organization
+## Step 1 — Create the GitHub organization — ✅ DONE (2026-09-27)
 
 1. Sign in to GitHub as **digonto10602**.
 2. Click your avatar (top-right) → **Your organizations** → **New organization** → choose **Create a free organization**.
@@ -52,19 +71,19 @@ plan for some features. You can switch later; the site copy reads `MEETING_PLATF
    *Why this name and not `dts`:* an organization's website address is always `<organization-name>.github.io`. To get `DrTherapyServices.github.io` the org itself must be called `DrTherapyServices` (`dts` is almost certainly taken anyway). GitHub addresses are case-insensitive, so `drtherapyservices.github.io` and `DrTherapyServices.github.io` are the same site.
 4. Contact email: `digonto10602@gmail.com`. "This organization belongs to": **My personal account**. Finish the wizard (you can skip inviting members).
 
-## Step 2 — Create the website repository in the organization
+## Step 2 — Create the website repository in the organization — ✅ DONE (2026-09-27)
 
 1. On the org page click **New repository**.
 2. Owner: **DrTherapyServices**. Repository name: **`DrTherapyServices.github.io`** (must match exactly — this special name is what makes it the org's main site).
 3. Visibility: **Public** (GitHub Pages on free plans requires a public repo).
 4. Do **not** add a README/.gitignore (we already have files). Click **Create repository**.
 
-## Step 3 — Create the backup repository under your personal account
+## Step 3 — Create the backup repository under your personal account — ✅ DONE (2026-09-27)
 
 1. Go to <https://github.com/new>.
 2. Owner: **digonto10602**. Name: **`DrTherapyServices-backup`**. Visibility: Private is fine. Create it empty.
 
-## Step 4 — Put the website files on your laptop and push them
+## Step 4 — Put the website files on your laptop and push them — ✅ DONE (2026-09-27)
 
 Unzip `dts-website.zip` somewhere convenient (e.g. `~/Projects/dts-website`). Then, in a terminal:
 
@@ -79,22 +98,30 @@ git push -u origin main
 git push backup main
 ```
 
+*As set up on 2026-09-27:* the `origin` remote has **two push URLs** (org repo + backup repo), so a single `git push origin main` updates both:
+
+```bash
+git remote set-url --add --push origin https://github.com/DrTherapyServices/DrTherapyServices.github.io.git
+git remote set-url --add --push origin https://github.com/digonto10602/DrTherapyServices-backup.git
+```
+
 If Git asks you to log in, use a **personal access token** (GitHub → Settings → Developer settings → Personal access tokens → *Tokens (classic)* → Generate → tick `repo` and `workflow`) as the password, or install the GitHub CLI (`gh auth login`) which handles it for you.
 
-## Step 5 — Turn on GitHub Pages
+## Step 5 — Turn on GitHub Pages — ✅ DONE (2026-09-27)
 
 1. In the org repo, go to **Settings → Pages**.
 2. Under **Build and deployment** choose **Source: Deploy from a branch**, Branch: **main**, folder **/ (root)**. Save.
 3. Wait 1–2 minutes, then open <https://drtherapyservices.github.io>. The site is live (booking page runs in *demo mode* until Step 7 is done).
 4. Optional: **Settings → Pages → Enforce HTTPS** should be ticked.
 
-## Step 6 — Automatic backup mirror (org → personal)
+## Step 6 — Automatic backup mirror (org → personal) — ✅ DONE (2026-09-27)
 
 The file `.github/workflows/mirror-backup.yml` copies every push on `main` to the backup repo. It needs permission to push to your personal repo:
 
 1. Create a **fine-grained personal access token**: GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token.
    Resource owner: `digonto10602`. Repository access: *Only select repositories* → `DrTherapyServices-backup`. Permissions: **Contents → Read and write**. Generate and copy it.
 2. In the **org repo** go to **Settings → Secrets and variables → Actions → New repository secret**. Name: `BACKUP_TOKEN`. Value: the token. Save.
+   *As set up on 2026-09-27:* `BACKUP_TOKEN` was filled with the GitHub CLI login token (`gh auth token | gh secret set BACKUP_TOKEN --repo DrTherapyServices/DrTherapyServices.github.io`). It works, but it has access to every repo of `digonto10602`. Replacing it with the fine-grained token from 6.1 is recommended: create the token, then re-run the same **New repository secret** step with the name `BACKUP_TOKEN` to overwrite it.
 3. In the org repo **Settings → Actions → General**, make sure Actions are allowed. Push any commit (or run the workflow from the **Actions** tab → *Mirror to personal backup* → *Run workflow*). The backup repo now mirrors the org repo automatically.
 
 ## Step 7 — Set up the Google backend (email + Meet + CSV)
