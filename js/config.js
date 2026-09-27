@@ -5,11 +5,11 @@ window.DTS_CONFIG = {
   // 1) Paste the Google Apps Script "Web app" URL here after you deploy backend/Code.gs.
   //    It looks like: https://script.google.com/macros/s/AKfycb.../exec
   //    Leave it empty ("") to run the booking page in DEMO MODE (no emails are sent).
-  API_URL: "",
+  API_URL: "https://script.google.com/macros/s/AKfycbyYp6TjwYKkp-ji70pXNXhI5DCSuE4_fooH9DprTtSBcBi9oMXR2w8LI4FEP-Xrd1aM/exec",
 
   // 2) A shared secret. Must be IDENTICAL to SITE_KEY inside backend/Code.gs.
   //    (It is visible in the browser, so it only deters casual spam — that is expected.)
-  SITE_KEY: "change-me-to-a-long-random-string",
+  SITE_KEY: "cpioqwnecopnubrpqwkcqinmcpern7972974702jjkj2k3j2uiujk5hj2l35h2ljb2kj6bk24nv2342k3b4k2hj3v6k2hj34v62khv6l2l23h4vl23h4v2l3hj4vl2v6h2l6jk",
 
   // 3) Business hours. Slots are generated from START_HOUR to END_HOUR in SLOT_MINUTES steps.
   //    9 -> 17 with 30-minute slots gives 9:00, 9:30, ... 16:30 (the last slot ends at 5:00 pm).
@@ -27,5 +27,5 @@ window.DTS_CONFIG = {
   MEETING_PLATFORM: "Google Meet",
 
   // 5) Public contact address shown in the footer (admins are managed in the Google Sheet, not here).
-  CONTACT_EMAIL: "digonto10602@gmail.com",
+  CONTACT_EMAIL: "dts.drtherapyservices@gmail.com",
 };
