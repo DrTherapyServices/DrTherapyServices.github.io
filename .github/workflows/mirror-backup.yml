@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Otherwise checkout's GITHUB_TOKEN auth header overrides BACKUP_TOKEN and the push gets "Repository not found".
+          persist-credentials: false
 
       - name: Push to backup repository
         env:
