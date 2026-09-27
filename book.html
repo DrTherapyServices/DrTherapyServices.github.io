@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book a Free Consultation — DTS | Doctor Therapy Services</title>
+  <meta name="description" content="Choose a date and a 30-minute time slot for your free consultation with Doctor Therapy Services. You'll receive a confirmation email with a Google Meet link.">
+  <meta name="theme-color" content="#2F5D3C">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html" aria-label="DTS home">
+        <img src="assets/logo-mark.svg" alt="" width="42" height="42">
+        <span class="brand-text"><strong>DTS</strong><span>Doctor Therapy Services</span></span>
+      </a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="navlinks">
+        <li><a href="index.html#who">Who we help</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a class="btn btn-secondary" href="index.html">← Back to home</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="book-hero">
+      <span class="eyebrow">Book an appointment</span>
+      <h1>Schedule your <em style="color:var(--green)">free consultation</em>.</h1>
+      <p class="lede">Pick a day, choose a time, tell us how to reach you. A confirmation with your video-call link lands in your inbox right away.</p>
+      <div class="book-meta" id="book-meta"></div>
+    </section>
+
+    <div id="demo-banner" class="alert alert-warn" style="display:none;margin-bottom:1rem">
+      <b>Demo mode.</b> The booking backend is not connected yet (API_URL is empty in <code>js/config.js</code>). You can click through the flow, but no email will be sent.
+    </div>
+
+    <div class="book-layout" id="booking-ui">
+      <div>
+        <!-- STEP 1: date -->
+        <div class="card" id="step-date">
+          <h2><span class="n">1</span> Choose a date <span class="done" id="date-done"></span></h2>
+          <div class="cal-head">
+            <button class="cal-nav" id="cal-prev" aria-label="Previous month">‹</button>
+            <b id="cal-title">Month</b>
+            <button class="cal-nav" id="cal-next" aria-label="Next month">›</button>
+          </div>
+          <div class="cal-grid" id="cal-grid" role="grid" aria-label="Calendar"></div>
+          <div class="cal-legend"><span><i style="background:var(--green)"></i>Selected</span><span><i style="background:var(--ochre)"></i>Today</span><span><i style="background:#d9dcdc"></i>Unavailable</span></div>
+        </div>
+
+        <!-- STEP 2: time -->
+        <div class="card" id="step-time">
+          <h2><span class="n">2</span> Choose a time <span class="done" id="time-done"></span></h2>
+          <div id="slots-wrap"><div class="placeholder">Select a date to see available times.</div></div>
+          <p class="slots-note" id="tz-note"></p>
+        </div>
+
+        <!-- STEP 3: details -->
+        <div class="card" id="step-details">
+          <h2><span class="n">3</span> Your details</h2>
+          <form id="book-form" novalidate>
+            <div class="field" id="f-name">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" placeholder="e.g., Jordan Alvarez">
+              <div class="err">Please enter your name.</div>
+            </div>
+            <div class="field" id="f-email">
+              <label for="email">Email address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required inputmode="email" maxlength="160" placeholder="you@example.com">
+              <div class="err">Please enter a valid email address — this is where your confirmation and meeting link will go.</div>
+            </div>
+            <div class="field" id="f-phone">
+              <label for="phone">Phone <small>(optional)</small></label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="+1 (555) 123-4567">
+              <div class="err">That phone number doesn't look right.</div>
+            </div>
+            <div class="field">
+              <label for="notes">Anything you'd like us to know? <small>(optional)</small></label>
+              <textarea id="notes" name="notes" rows="3" maxlength="800" placeholder="Who the consultation is for, main concerns, best way to reach you…"></textarea>
+            </div>
+            <!-- honeypot: real people never see or fill this -->
+            <div class="hp" aria-hidden="true"><label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+            <label class="consent"><input type="checkbox" id="consent" required> I agree to be contacted by DTS at the email (and phone, if given) above about this appointment. I understand this consultation is informational and not emergency care.</label>
+          </form>
+        </div>
+      </div>
+
+      <!-- SUMMARY / SUBMIT -->
+      <aside class="card summary" id="summary">
+        <h2 style="margin-bottom:.4rem">Your appointment</h2>
+        <div class="row"><span>Type</span><b id="s-type">—</b></div>
+        <div class="row"><span>Date</span><b id="s-date" class="empty">Not selected</b></div>
+        <div class="row"><span>Time</span><b id="s-time" class="empty">Not selected</b></div>
+        <div class="row"><span>Where</span><b id="s-where">—</b></div>
+        <div id="submit-error" class="alert alert-err" style="display:none;margin-top:1rem"></div>
+        <button class="btn btn-primary btn-lg" id="submit-btn" type="button" disabled>Book now <span class="arrow">→</span></button>
+        <p class="fine">Both you and our team receive an email confirmation with the video-call link. Reply to that email any time to reschedule.</p>
+      </aside>
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div class="card confirm" id="confirmation" style="display:none;max-width:720px;margin:0 auto clamp(56px,8vw,100px)">
+      <div class="check">✓</div>
+      <h2 style="justify-content:center">You're booked!</h2>
+      <p class="lede" style="margin-inline:auto">A confirmation email is on its way to <b id="c-email"></b>. Add it to your calendar and join the video call at your scheduled time.</p>
+      <div class="details">
+        <div><span>Appointment</span><b id="c-type"></b></div>
+        <div><span>When</span><b id="c-when"></b></div>
+        <div><span>Video link</span><b class="meet"><a id="c-link" href="#" target="_blank" rel="noopener">Join meeting</a></b></div>
+        <div><span>Confirmation #</span><b id="c-id"></b></div>
+      </div>
+      <p style="color:var(--muted);font-size:.9rem">Didn't get the email within a few minutes? Check your spam folder, or contact us at <a id="c-contact" href="mailto:"></a>.</p>
+      <a class="btn btn-secondary" href="index.html">Back to home</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="foot-bottom" style="border:0;margin:0;padding:0">
+        <span>© <span id="year"></span> Doctor Therapy Services (DTS)</span>
+        <span>Not for emergencies — call 911 or 988 (U.S.) if you need immediate help.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/booking.js"></script>
+</body>
+</html>

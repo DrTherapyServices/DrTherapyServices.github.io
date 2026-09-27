@@ -1,0 +1,28 @@
+# Mirrors every push on `main` of the organization repo to the backup repo
+# under your personal account (digonto10602/DrTherapyServices-backup).
+# Requires a repository secret named BACKUP_TOKEN — see docs/SETUP_GUIDE.md, Step 6.
+name: Mirror to personal backup
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to backup repository
+        env:
+          BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
+          BACKUP_REPO: digonto10602/DrTherapyServices-backup
+        run: |
+          if [ -z "$BACKUP_TOKEN" ]; then echo "BACKUP_TOKEN secret is missing"; exit 1; fi
+          git remote add backup "https://x-access-token:${BACKUP_TOKEN}@github.com/${BACKUP_REPO}.git"
+          git push --force backup HEAD:main
+          git push --force backup --tags

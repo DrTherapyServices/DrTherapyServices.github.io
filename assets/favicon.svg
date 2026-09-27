@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" role="img" aria-label="DTS logo">
+  <rect width="120" height="120" rx="30" fill="#2F5D3C"/>
+  <g fill="none" stroke="#F4E8CC" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <!-- D -->
+    <path d="M20 38 V82"/>
+    <path d="M20 38 H30 A22 22 0 0 1 30 82 H20"/>
+    <!-- T -->
+    <path d="M58 38 H84"/>
+    <path d="M71 38 V82"/>
+    <!-- S -->
+    <path d="M110 46 C110 40 105 37 100 37 C93 37 89 42 89 48 C89 55 94 59 100 59 C107 59 112 63 112 71 C112 78 106 83 100 83 C94 83 90 80 89 75"/>
+  </g>
+  <!-- warm sun inside the D: care, optimism -->
+  <circle cx="34" cy="60" r="6" fill="#E9C46A"/>
+  <!-- small ochre spark at the tail of the S: forward momentum -->
+  <circle cx="89" cy="75" r="4" fill="#B8622B"/>
+</svg>
