@@ -10,6 +10,7 @@ on:
 
 jobs:
   mirror:
+    if: github.repository == 'DrTherapyServices/DrTherapyServices.github.io'
     runs-on: ubuntu-latest
     steps:
       - name: Check out full history
