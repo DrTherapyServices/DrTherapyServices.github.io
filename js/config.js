@@ -13,8 +13,8 @@ window.DTS_CONFIG = {
 
   // 3) Business hours. Slots are generated from START_HOUR to END_HOUR in SLOT_MINUTES steps.
   //    9 -> 17 with 30-minute slots gives 9:00, 9:30, ... 16:30 (the last slot ends at 5:00 pm).
-  TIMEZONE: "America/Denver",          // IANA time-zone name used for all bookings
-  TIMEZONE_LABEL: "Mountain Time (MT)",
+  TIMEZONE: "America/Toronto",         // IANA time-zone name used for all bookings
+  TIMEZONE_LABEL: "Eastern Time (Toronto)",
   START_HOUR: 9,
   END_HOUR: 17,
   SLOT_MINUTES: 30,

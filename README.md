@@ -20,7 +20,7 @@ prompts in **[CLAUDE_CODE_PROMPT.md](CLAUDE_CODE_PROMPT.md)**.
 
 ```
 index.html            home page
-book.html             booking page (calendar · 30-min slots 9–5 MT · form · confirmation)
+book.html             booking page (calendar · 30-min slots 9–5 ET (Toronto) · form · confirmation)
 css/styles.css        design system + components
 js/config.js          ← the only file you must edit to go live
 js/main.js            nav, smooth scroll, reveal animations

@@ -14,7 +14,7 @@ Booking backend is a Google Apps Script web app (`backend/Code.gs`) attached to 
 
 ## File map
 - `index.html` — home page (hero, trust strip, who-we-help cards, 8 service cards, how it works, CTA, about, FAQ, footer).
-- `book.html` + `js/booking.js` — calendar → 30-min slots (9:00–16:30 MT) → details form → confirmation.
+- `book.html` + `js/booking.js` — calendar → 30-min slots (9:00–16:30 ET, Toronto) → details form → confirmation.
 - `js/config.js` — the ONLY file that must be edited to go live (`API_URL`, `SITE_KEY`, hours, time zone).
 - `js/main.js` — nav, mobile menu, smooth anchor scroll, reveal-on-scroll, progress bar.
 - `css/styles.css` — design tokens at the top (`:root`), then components. Palette: green `#2F5D3C`, teal `#3E6B6F`, ochre `#B8622B`, yellow `#E9C46A`, cream `#F4E8CC`, paper `#FBF7EE`, ink `#1C2627`.
@@ -48,4 +48,4 @@ and **Deploy → Manage deployments → New version** (URL does not change).
 - [ ] Calendar: past days, weekends and days beyond `MAX_DAYS_AHEAD` disabled; today marked; month nav limits work.
 - [ ] Slots: 16 slots (9:00–16:30); slots less than `MIN_NOTICE_HOURS` away disabled; booked slots greyed.
 - [ ] Form: email required + validated, phone optional + validated, consent required, honeypot hidden.
-- [ ] Submit → confirmation screen shows date/time in MT and the Meet link.
+- [ ] Submit → confirmation screen shows date/time in Eastern Time (Toronto) and the Meet link.

@@ -5,7 +5,7 @@
    ========================================================= */
 (function () {
   const cfg = window.DTS_CONFIG || {};
-  const TZ = cfg.TIMEZONE || "America/Denver";
+  const TZ = cfg.TIMEZONE || "America/Toronto";
   const DEMO = !cfg.API_URL;
   const $ = (id) => document.getElementById(id);
 

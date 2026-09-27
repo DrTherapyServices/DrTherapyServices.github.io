@@ -24,8 +24,8 @@
 const SETTINGS = {
   SITE_KEY: 'change-me-to-a-long-random-string', // MUST match SITE_KEY in js/config.js
   ORG_NAME: 'Doctor Therapy Services (DTS)',
-  TIMEZONE: 'America/Denver',                     // must match js/config.js TIMEZONE
-  TIMEZONE_LABEL: 'Mountain Time (MT)',
+  TIMEZONE: 'America/Toronto',                    // must match js/config.js TIMEZONE
+  TIMEZONE_LABEL: 'Eastern Time (Toronto)',
   SLOT_MINUTES: 30,
   START_HOUR: 9,
   END_HOUR: 17,
@@ -333,6 +333,6 @@ function testBooking() {
   let t = new Date(Date.now() + 2 * 86400e3);
   while (SETTINGS.WORKING_DAYS.indexOf(Number(Utilities.formatDate(t, SETTINGS.TIMEZONE, 'u')) % 7) === -1) t = new Date(t.getTime() + 86400e3);
   const d = Utilities.formatDate(t, SETTINGS.TIMEZONE, 'yyyy-MM-dd');
-  const fake = { postData: { contents: JSON.stringify({ key: SETTINGS.SITE_KEY, date: d, time: '10:00', name: 'Test Client', email: Session.getEffectiveUser().getEmail(), phone: '+1 555 000 1111', notes: 'Test booking from Apps Script editor', clientTimezone: 'America/Denver' }) } };
+  const fake = { postData: { contents: JSON.stringify({ key: SETTINGS.SITE_KEY, date: d, time: '10:00', name: 'Test Client', email: Session.getEffectiveUser().getEmail(), phone: '+1 555 000 1111', notes: 'Test booking from Apps Script editor', clientTimezone: 'America/Toronto' }) } };
   console.log(doPost(fake).getContent());
 }

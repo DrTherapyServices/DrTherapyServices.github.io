@@ -19,8 +19,8 @@ from zoneinfo import ZoneInfo
 from playwright.sync_api import sync_playwright
 
 # Keep in sync with js/config.js
-TZ = ZoneInfo("America/Denver")
-TZ_LABEL = "Mountain Time (MT)"
+TZ = ZoneInfo("America/Toronto")
+TZ_LABEL = "Eastern Time (Toronto)"
 WORKING_DAYS = {0, 1, 2, 3, 4}  # Python weekday(): Monday = 0
 MAX_DAYS_AHEAD = 60
 MIN_NOTICE_HOURS = 12
@@ -275,7 +275,7 @@ def booking_flow(browser, base, prefix, vp):
     y, m, d = map(int, day.split("-"))
     long_date = date(y, m, d).strftime("%A, %B ") + str(d) + date(y, m, d).strftime(", %Y")
     check(f"{label}: confirmation visible", page.is_visible("#confirmation"))
-    check(f"{label}: confirmation shows date + time in Mountain Time",
+    check(f"{label}: confirmation shows date + time in Eastern Time (Toronto)",
           long_date in when and slot_text in when and TZ_LABEL in when, when)
     href = page.get_attribute("#c-link", "href")
     check(f"{label}: confirmation shows a meet link", bool(re.match(r"https://meet\.google\.com/\S+", href or "")), href)
@@ -294,7 +294,7 @@ def main():
     args = ap.parse_args()
     base = args.base.rstrip("/")
     SHOTS.mkdir(exist_ok=True)
-    print(f"Testing {base}  (today in MT: {datetime.now(TZ):%a %Y-%m-%d %H:%M})")
+    print(f"Testing {base}  (today in Toronto: {datetime.now(TZ):%a %Y-%m-%d %H:%M})")
     with sync_playwright() as p:
         browser = p.chromium.launch()
         screenshot_pages(browser, base, args.prefix)
